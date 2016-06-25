@@ -21,6 +21,6 @@ task({
 })
 
 gulp.task('dev', (cb) => {
-    runSequence('clean',['output', 'fronted', 'watch'], ['webpack_dev', 'server'], cb)
+    runSequence('clean',['output', 'favicon', 'fronted', 'watch'], ['webpack_dev', 'server'], cb)
 })
 export default gulp
