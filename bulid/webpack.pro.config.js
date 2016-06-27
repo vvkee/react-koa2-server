@@ -1,16 +1,21 @@
-'use strict';
+import _ from 'lodash'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import QiniuPlugin from 'qiniu-webpack-plugin'
 import baseConfig from './webpack.base.config'
 
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
+
+const entriesFromBaseConfig = baseConfig.entry
+const chunks = getChunksByEntry(entriesFromBaseConfig)
 export default merge(baseConfig, {
     output: {
         filename: 'js/[name].[hash].min.js',
         chunkFilename: 'js/chunk.[hash.]min.js',
         hotUpdateChunkFilename: 'js/[id].[hash].min.js',
-        publicPath: 'http://static.weizongqi.com/'
+        publicPath: 'http://7xnqtq.com1.z0.glb.clouddn.com/'
     },
     module: {
         loaders: [
@@ -31,6 +36,11 @@ export default merge(baseConfig, {
             // @see https://github.com/webpack/extract-text-webpack-plugin
             allChunks: false
         }),
+        new CommonsChunkPlugin({
+             name: 'common',
+             filename: 'js/common.[hash].js',
+             chunks: chunks
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'
@@ -41,6 +51,21 @@ export default merge(baseConfig, {
                 warnings: false
             }
         }),
-        new webpack.optimize.OccurenceOrderPlugin()
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new QiniuPlugin({
+            ACCESS_KEY: 'ZdTWWI6pGAuZmEi_7stJrAFSL64YGFOjhpZPezIb',
+            SECRET_KEY: 'LWubCkQLzScOW_IrAQN2nks-on_7aQm8E7CkKtG7',
+            bucket: 'static',
+            path: ''
+        })
     ]
 })
+
+// getChunksByEntry
+function getChunksByEntry (entries) {
+    let chunks = []
+    _.forEach(entries, (entry, keyName) => {
+        chunks.push(keyName)
+    })
+    return chunks
+}

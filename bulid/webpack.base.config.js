@@ -7,11 +7,8 @@ import fs from 'fs'
 import glob from 'glob'
 
 const rootPath = path.join(__dirname, '..')
-const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
 
 const entries = getEntry()
-const chunks = getChunksByEntry(entries)
-
 export default  {
     entry: entries,
     output: {
@@ -66,17 +63,13 @@ export default  {
         }]
     },
     plugins: [
-        // common file
-        new CommonsChunkPlugin({
-             name: 'vender',
-             chunks: chunks
-        }),
         // create map.json
         new AssetsPlugin({
-            filename: `map.${new Date().getTime()}.json`,
+            filename: 'map.json',
             update: true,
             prettyPrint: true,
             fullPath: true,
+            metadata: new Date().getTime(),
             path: `${rootPath}/dist/public/`
         })
     ],
@@ -105,17 +98,6 @@ function getEntry () {
     })
 
     return Object.assign(map, {
-        vender: ['react', 'react-dom']
+        vendor: ['react', 'react-dom']
     })
-}
-
-//.DS_Store
-function getChunksByEntry (entries) {
-    let chunks = []
-    _.forEach(entries, (entry, keyName) => {
-        if (keyName !== 'vender') {
-            chunks.push(keyName)
-        }
-    })
-    return chunks
 }

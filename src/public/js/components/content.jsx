@@ -1,23 +1,22 @@
-import React, { Component } from 'react'
-import render from 'react-dom'
+import React, { Component, PropTypes } from 'react'
+
+const propTypes = {
+    list: PropTypes.array
+}
 
 class Content extends Component {
-    constructor (props) {
-        super(props)
-    }
-
-    render(){
+    render () {
         let names = this.props.list
         return (
             <div>
                 {
-                    names.map((name) => {
-                        return <div>{name}</div>
-                    })
+                    names.map((name) => <div>{name}</div>)
                 }
             </div>
         )
     }
 }
+
+Content.propTypes = propTypes
 
 export default Content

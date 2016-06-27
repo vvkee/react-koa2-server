@@ -16,7 +16,7 @@ import session from 'koa-session2'
 
 import path from 'path'
 
-import { RedisStore } from './bootstrap'
+import { RedisStore, readStaticMap } from './bootstrap'
 import { router } from './config'
 const app = new Koa()
 
@@ -27,6 +27,8 @@ const staticPath = path.join(__dirname, 'public')
 onerror(app)
 // csrf
 csrf(app)
+// readStaticMap
+readStaticMap(app)
 // react server render
 react(app, {
     views: viewsPath
@@ -44,7 +46,7 @@ app.use(bodyParser({
     }
 }))
 // compress
-app.use(compress())
+// app.use(compress())
 // 静态模板
 app.use(convert((koaStatic(path.join(__dirname, 'public')))))
 app.use(favicon(`${__dirname}/public/static/favicon.ico`))

@@ -6,11 +6,23 @@
     "node": true
   },
   plugins: [
-    'html'
+    'html',
+    'react'
   ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "ecmaFeatures": {
-    "jsx": false,
+    "jsx": true,
     # lambda表达式
     "arrowFunctions": true,
     # 解构赋值
@@ -203,6 +215,13 @@
     "wrap-iife": [2, "any"],
     "wrap-regex": 0,
     "yoda": [2, "never"],
-    max-len: ["error", 300]
+    max-len: ["error", 300],
+    "no-useless-constructor": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-indent-props": [2, 4],
+    "react/jsx-indent": [2, 4],
+    "react/prefer-es6-class": [2, 'always'],
+    "react/prefer-stateless-function": 0
   }
 }

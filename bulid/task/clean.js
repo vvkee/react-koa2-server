@@ -1,7 +1,7 @@
-import del from 'del'
+import 'shelljs/global'
 
 export default (gulp, path) => {
     gulp.task('clean', () => {
-        del([path.dist])
+        rm('-R', path.dist)
     })
 }
