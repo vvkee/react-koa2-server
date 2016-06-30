@@ -1,5 +1,5 @@
 import '../../css/base.less'
-import './index.less'
+import '../../../pages/index.jsx'
 
 function initApp () {
 

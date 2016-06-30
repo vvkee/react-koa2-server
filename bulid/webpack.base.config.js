@@ -1,6 +1,6 @@
 import webpack from 'webpack'
 import AssetsPlugin from 'assets-webpack-plugin'
-
+import autoprefixer from 'autoprefixer-core'
 import _ from 'lodash'
 import path from 'path'
 import fs from 'fs'
@@ -9,17 +9,21 @@ import glob from 'glob'
 const rootPath = path.join(__dirname, '..')
 
 const entries = getEntry()
+
 export default  {
     entry: entries,
     output: {
-        path: `${rootPath}/dist/public/`,
+        path: `${rootPath}/public/`,
         filename: 'js/[name].js',
         chunkFilename: 'js/[chunkhash:8].chunk.js',
         hotUpdateChunkFilename: 'js/[id].[hash].hot-update.js'
     },
     resolve: {
-        root: [rootPath + '/src', rootPath + '/node_modules'],
-        extensions: ['', '.js', '.jsx']
+        root: [rootPath, `${rootPath}/node_modules`],
+        extensions: ['', '.js', '.jsx', '.json']
+    },
+    resolveLoader: {
+        root: path.join(rootPath, 'node_modules')
     },
     module: {
         preLoaders: [{
@@ -31,15 +35,13 @@ export default  {
         loaders: [{
             test: /\.jsx$/,
             loader: 'jsx-loader',
+            exclude: /node_modules/
         }, {
             test: /\.jsx?$/,
             loader: 'babel-loader',
+            exclude: /node_modules/,
             query: {
-                presets: [
-                    require.resolve('babel-preset-es2015'),
-                    require.resolve('babel-preset-react'),
-                    require.resolve('babel-preset-stage-3')
-                ]
+                presets: ['es2015', 'react', 'stage-3']
             }
         }, {
             test: /\.(jpe?g|png|gif)$/i,
@@ -70,18 +72,21 @@ export default  {
             prettyPrint: true,
             fullPath: true,
             metadata: new Date().getTime(),
-            path: `${rootPath}/dist/public/`
+            path: `${rootPath}/public/`
         })
     ],
     eslint: {
         formatter: require('eslint-friendly-formatter')
-    }
+    },
+    postcss: [
+        autoprefixer
+    ]
 }
 
 // 获取所有的view页面路径
 function getEntry () {
-    const viewsPath = path.resolve(rootPath, 'src/views')
-    const entryPath = path.resolve(rootPath, 'src/public/js/entries')
+    const viewsPath = path.join(rootPath, '/pages')
+    const entryPath = path.join(rootPath, '/static/js/entries')
 
     const pagesFiles = glob.sync(`${viewsPath}/*.jsx`)
     const entryFiles = glob.sync(`${entryPath}/*.js`)

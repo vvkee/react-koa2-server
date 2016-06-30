@@ -8,16 +8,17 @@ export default (gulp, path) => {
                 "js": "node"
             },
             watch: [
-                path.dist + '/app.js',
-                path.dist + '/config',
-                path.dist + '/controller',
-                path.dist + '/middleware',
-                path.dist + '/service',
-                path.dist + '/util'
+                `${path.root}/app.js`,
+                `${path.root}/config`,
+                `${path.root}/controllers`,
+                `${path.root}/middlewares`,
+                `${path.root}/pages`,
+                `${path.root}/routes`
             ],
             env: {
                 'NODE_ENV': 'development'
-            }
+            },
+            tasks: ['eslint']
         }).on('start', function() {
             gutil.log(gutil.colors.yellow(
                 'http://localhost:8837'));

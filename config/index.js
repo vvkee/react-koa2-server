@@ -1,3 +1,4 @@
-import pathConfig from './path.config'
+import redisConfig from './redis'
+import router from './router'
 
-export { pathConfig }
+export { redisConfig, router }

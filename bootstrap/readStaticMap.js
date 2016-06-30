@@ -42,7 +42,7 @@ function getOutput (pageName, fileType, map) {
             output = map[pageName].js
             break;
         case 'css':
-            output = map[pageName].js
+            output = map[pageName].css
             break;
     }
     return output

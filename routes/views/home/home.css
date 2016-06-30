@@ -1,4 +1,4 @@
-#weiqi {
+.weiqi {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,15 +8,15 @@
     background-color: #222;
     color: #fff;
     text-align: center;
-    h1 {
-        font-weight: normal;
-        font-size: 4rem;
-        line-height: 8.5rem;
-    }
-    p {
-        line-height: 2.4rem;
-    }
-    a {
-        color: #BABB3C;
-    }
+}
+.h1 {
+    font-weight: normal;
+    font-size: 4rem;
+    line-height: 8.5rem;
+}
+.p {
+    line-height: 2.4rem;
+}
+.a {
+    color: #BABB3C;
 }

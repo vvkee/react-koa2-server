@@ -1,7 +1,6 @@
 import Koa from 'koa'
 
 import onerror from 'koa-onerror'
-import react from 'koa-react-view'
 import csrf from 'koa-csrf'
 
 import convert from 'koa-convert'
@@ -16,11 +15,12 @@ import session from 'koa-session2'
 
 import path from 'path'
 
+import { viewEngine, reactRouter } from './middlewares'
 import { RedisStore, readStaticMap } from './bootstrap'
 import { router } from './config'
 const app = new Koa()
 
-const viewsPath = path.join(__dirname, 'views')
+const viewsPath = path.join(__dirname, 'pages')
 const staticPath = path.join(__dirname, 'public')
 
 // onerror
@@ -30,7 +30,7 @@ csrf(app)
 // readStaticMap
 readStaticMap(app)
 // react server render
-react(app, {
+viewEngine(app, {
     views: viewsPath
 })
 
@@ -61,5 +61,8 @@ app.use(router.routes())
 app.use(router.allowedMethods({
     throw: true
 }))
+
+// react router
+// app.use(reactRouter)
 
 export { app }
