@@ -9,11 +9,11 @@ export default (gulp, path) => {
             },
             watch: [
                 `${path.root}/app.js`,
-                `${path.root}/config`,
-                `${path.root}/controllers`,
-                `${path.root}/middlewares`,
-                `${path.root}/pages`,
-                `${path.root}/routes`
+                `${path.root}/config/**/*`,
+                `${path.root}/controllers/**/*`,
+                `${path.root}/middlewares/**/*`,
+                `${path.root}/pages/**/*`,
+                `${path.root}/routes/**/*`
             ],
             env: {
                 'NODE_ENV': 'development'

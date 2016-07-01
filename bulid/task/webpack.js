@@ -17,7 +17,6 @@ export default (gulp, path) => {
             }) + '\n')
         })
     })
-    console.log('webpackProConfig.entry', webpackProConfig.entry)
     gulp.task('webpack_pro', () => {
         webpack(webpackProConfig(), (err, stats) => {
             if (err) throw new gutil.PlugingError('webpack',

@@ -7,7 +7,7 @@ import webpackConfig from './webpack.dev.config'
 
 export default (app, readStaticMap) => {
     const compiler = webpack(webpackConfig)
-    if (!compiler.outputPath) compiler.outputPath = '/'
+    if (!compiler.outputPath) compiler.outputPath = '/public/'
     app.use(convert(devMiddleware(compiler, {
         noInfo: false,
         quiet: false,
