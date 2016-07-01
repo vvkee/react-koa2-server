@@ -1,7 +1,7 @@
 import nodemon from 'gulp-nodemon'
-
+import gutil from 'gulp-util'
 export default (gulp, path) => {
-    gulp.task('server', () => {
+    gulp.task('server_dev', () => {
         nodemon({
             script: path.root + '/bin/www',
             execMap: {

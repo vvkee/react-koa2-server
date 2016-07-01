@@ -3,9 +3,10 @@ import webpack from 'webpack'
 import convert from 'koa-convert'
 import devMiddleware from 'koa-webpack-dev-middleware'
 import hotMiddleware from 'koa-webpack-hot-middleware'
-import webpackConfig from './webpack.dev.config'
+import getWebpackConfig from './webpack.dev.config'
 
 export default (app, readStaticMap) => {
+    const webpackConfig = getWebpackConfig()
     const compiler = webpack(webpackConfig)
     if (!compiler.outputPath) compiler.outputPath = '/public/'
     app.use(convert(devMiddleware(compiler, {

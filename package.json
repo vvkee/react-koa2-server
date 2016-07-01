@@ -4,7 +4,7 @@
   "description": "render react in koa2",
   "main": "./bin/www",
   "scripts": {
-    "backed_start": "sudo gulp server",
+    "backed_start": "sudo gulp server_dev",
     "dev": "sudo gulp dev",
     "fe_dev": "sudo gulp webpack_dev",
     "fe_pro": "sudo gulp webpack_pro",
@@ -82,6 +82,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.0",
     "gulp-eslint": "^2.0.0",
     "gulp-nodemon": "^2.1.0",
     "gulp-sequence": "^0.4.5",

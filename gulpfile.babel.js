@@ -16,6 +16,6 @@ task({
 })
 
 gulp.task('dev', (cb) => {
-    runSequence('clean', ['eslint', 'favicon'], 'server', cb)
+    runSequence('clean', ['eslint', 'favicon'], 'server_dev', cb)
 })
 export default gulp
