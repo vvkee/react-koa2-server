@@ -1,8 +1,8 @@
 {
   "apps": [{
-    "name": "react-koa2-werver",
+    "name": "react-koa2-server",
     "script": "bin/www",
-    "cwd": "/data/www/cms_fe",
+    "cwd": "/Users/nico/node/react-koa2-server",
     "max_memory_restart": "1G",
     "autorestart": true,
     "exec_mode" : "cluster",
