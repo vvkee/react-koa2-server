@@ -13,29 +13,39 @@ const entriesFromBaseConfig = baseConfig.entry
 const chunks = getChunksByEntry(entriesFromBaseConfig)
 
 const extractCSS = new ExtractTextPlugin('css/[contenthash:8].[name].min.css', {
-    // 当allChunks指定为false时，css loader必须指定怎么处理
-    // additional chunk所依赖的css，即指定`ExtractTextPlugin.extract()`
-    // 第一个参数`notExtractLoader`，一般是使用style-loader
-    // @see https://github.com/webpack/extract-text-webpack-plugin
     allChunks: false
 })
-const cssLoader = extractCSS.extract('style', `css?minimize&modules&importLoaders=1&localIdentName=${cssModuleConfig}!postcss-loader`)
-const lessLoader = extractCSS.extract('style', `css?minimize&modules&importLoaders=1&localIdentName=${cssModuleConfig}!less-loader!postcss-loader`)
-export default merge(baseConfig, {
+const cssLoader = extractCSS.extract('style-loader', `css-loader?sourceMap&minimize&modules&importLoaders=1&localIdentName=${cssModuleConfig}!postcss-loader?sourceMap`)
+const lessLoader = extractCSS.extract('style-loader', `css-loader?sourceMap&minimize&modules&importLoaders=1&localIdentName=${cssModuleConfig}!less-loader!postcss-loader?sourceMap`)
+const globalCssLoader = extractCSS.extract('style-loader', `css-loader?sourceMap&minimize!postcss-loader`)
+const globalLessLoader = extractCSS.extract('style-loader', `css-loader?sourceMap&minimize!less-loader!postcss-loader`)
+export default () => merge(baseConfig, {
     output: {
         filename: 'js/[name].[hash].min.js',
         chunkFilename: 'js/chunk.[hash.]min.js',
-        hotUpdateChunkFilename: 'js/[id].[hash].min.js',
         publicPath: 'http://7xnqtq.com1.z0.glb.clouddn.com/static/'
     },
     module: {
         loaders: [
             {
+                test: /\.jsx?$/,
+                loaders: ['babel'],
+                exclude: /node_modules/
+            },
+            {
                 test: /\.css$/,
+                exclude: /static\/style/,
                 loader: cssLoader
             }, {
                 test: /\.less$/,
+                exclude: /static\/style/,
                 loader: lessLoader
+            }, {
+                test: /static\/style\/\S*\.css/,
+                loader: globalCssLoader
+            }, {
+                test: /static\/style\/\S*\.less/,
+                loader: globalLessLoader
             }
         ]
     },

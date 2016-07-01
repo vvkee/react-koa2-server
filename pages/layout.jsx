@@ -1,11 +1,14 @@
-import React from 'react'
-
+import React, { Component, PropTypes } from 'react'
 import CssFile from './cssFile'
-import _ from 'lodash'
-const Layout = React.createClass({
-    propTypes: {
-        title: React.PropTypes.string
-    },
+
+class Layout extends Component {
+    static propTypes = {
+        title: PropTypes.string,
+        description: PropTypes.string,
+        keywords: PropTypes.string,
+        cssFiles: PropTypes.array,
+        children: PropTypes.object
+    }
 
     render () {
         const cssFiles = this.props.cssFiles || []
@@ -26,6 +29,6 @@ const Layout = React.createClass({
             </html>
         )
     }
-})
+}
 
 export default Layout

@@ -4,6 +4,13 @@ import Layout from './layout'
 import JsFile from './jsFile'
 
 class Test extends Component {
+    static propTypes = {
+        title: PropTypes.string,
+        description: PropTypes.string,
+        keywords: PropTypes.string,
+        staticFiles: PropTypes.object,
+        html: PropTypes.string
+    }
     render () {
         return (
             <Layout

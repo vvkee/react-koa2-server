@@ -1,4 +1,4 @@
-import '../../css/base.less'
+import '../../style/css/base.less'
 import '../../../pages/index.jsx'
 
 function initApp () {

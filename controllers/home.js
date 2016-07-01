@@ -7,7 +7,6 @@ const renderToString = ReactDOMServer.renderToString
 export default {
     index: async (ctx, next) => {
         const staticFiles = await ctx.renderStaticFile('index')
-        console.log('staticFiles', staticFiles)
         ctx.render('index', {
             title: '韦宗圻-weizongqi-韦其-weiqi-Web前端-专注前端领域实践开发',
             description: '韦宗圻（又名韦其），专注于web前端技术领域实践。对web技术有着灵敏的嗅觉，致力于国内外web新技术试行者。',
@@ -25,11 +24,11 @@ export default {
         }, (err, redirectLocation, renderProps) => {
             if (err) {
                 ctx.res.status = 500
-                ctx.res.send(error.message)
+                ctx.res.send(err.message)
             } else if (redirectLocation) {
-                ctx.res.redirect(302, `${ redirectLocation.pathname }${ redirectLocation.search }`)
+                ctx.res.redirect(302, redirectLocation.pathname + redirectLocation.search)
             } else if (renderProps) {
-                const html = renderToString(<RouterContext { ...renderProps }></RouterContext>)
+                const html = renderToString(<RouterContext {...renderProps} />)
                 ctx.render('test', {
                     title: '韦宗圻-weizongqi-韦其-weiqi-Web前端-专注前端领域实践开发',
                     description: '韦宗圻（又名韦其），专注于web前端技术领域实践。对web技术有着灵敏的嗅觉，致力于国内外web新技术试行者。',

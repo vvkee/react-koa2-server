@@ -1,6 +1,6 @@
 import webpack from 'webpack'
 import AssetsPlugin from 'assets-webpack-plugin'
-import autoprefixer from 'autoprefixer-core'
+import autoprefixer from 'autoprefixer'
 import _ from 'lodash'
 import path from 'path'
 import fs from 'fs'
@@ -12,12 +12,6 @@ const entries = getEntry()
 
 export default  {
     entry: entries,
-    output: {
-        path: `${rootPath}/public/`,
-        filename: 'js/[name].js',
-        chunkFilename: 'js/[chunkhash:8].chunk.js',
-        hotUpdateChunkFilename: 'js/[id].[hash].hot-update.js'
-    },
     resolve: {
         root: [rootPath, `${rootPath}/node_modules`],
         extensions: ['', '.js', '.jsx', '.json']
@@ -26,53 +20,46 @@ export default  {
         root: path.join(rootPath, 'node_modules')
     },
     module: {
-        preLoaders: [{
-            test: /\.jsx?$/,
-            loader: 'eslint',
-            include: rootPath,
-            exclude: /node_modules/
-        }],
-        loaders: [{
-            test: /\.jsx$/,
-            loader: 'jsx-loader',
-            exclude: /node_modules/
-        }, {
-            test: /\.jsx?$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/,
-            query: {
-                presets: ['es2015', 'react', 'stage-3']
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                loader: 'eslint',
+                include: rootPath,
+                exclude: /node_modules/
             }
-        }, {
-            test: /\.(jpe?g|png|gif)$/i,
-            loaders: [
-                'image?{bypassOnDebug: true, progressive:true, optimizationLevel: 3, pngquant:{quality: "65-80", speed: 4}}',
-                // url-loader更好用，小于10KB的图片会自动转成dataUrl，
-                // 否则则调用file-loader，参数直接传入
-                'url?limit=10000&name=img/[hash:8].[name].[ext]',
-            ],
-            query: {
-                limit: 10000,
-                name: 'images/[hash:7].[name].[ext]'
+        ],
+        loaders: [
+            {
+                test: /\.(jpe?g|png|gif)$/i,
+                loaders: [
+                    'image?{bypassOnDebug: true, progressive:true, optimizationLevel: 3, pngquant:{quality: "65-80", speed: 4}}',
+                    // url-loader更好用，小于10KB的图片会自动转成dataUrl，
+                    // 否则则调用file-loader，参数直接传入
+                    'url?limit=10000&name=img/[hash:8].[name].[ext]',
+                ],
+                query: {
+                    limit: 10000,
+                    name: 'images/[hash:7].[name].[ext]'
+                }
+            }, {
+                test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url',
+                query: {
+                    limit: 10000,
+                    name: 'fonts/[hash:7].[name].[ext]'
+                }
             }
-        }, {
-            test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
-            loader: 'url',
-            query: {
-                limit: 10000,
-                name: 'fonts/[hash:7].[name].[ext]'
-            }
-        }]
+        ]
     },
     plugins: [
-        // create map.json
+        // create assets.js
         new AssetsPlugin({
-            filename: 'map.json',
+            filename: 'assets.js',
             update: true,
             prettyPrint: true,
             fullPath: true,
-            metadata: new Date().getTime(),
-            path: `${rootPath}/public/`
+            path: `${rootPath}/`,
+            processOutput: x => `module.exports = ${JSON.stringify(x)}`,
         })
     ],
     eslint: {

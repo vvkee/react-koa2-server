@@ -12,7 +12,8 @@ require('babel-register')({
   "ignore": /^(node_modules|bower_components)$/,
   "presets": ["es2015", "stage-3", "react"],
   "extensions": [".es6", ".es", ".jsx", ".js"],
-  "only": /(bootstrap|config|controllers|middlewares|pages|routes|static|app\.js)/,
+  "only": /(bootstrap|bulid|config|controllers|middlewares|pages|routes|static|app\.js)/,
+  plugins: ['transform-runtime', 'transform-react-jsx', "babel-plugin-transform-class-properties"]
 })
 require("babel-polyfill")
 
